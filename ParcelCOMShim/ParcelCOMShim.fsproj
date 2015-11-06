@@ -35,6 +35,7 @@
     <DocumentationFile>bin\Release\ParcelCOMShim.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -42,6 +43,17 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ParcelCOMShim.fs" />
+    <Compile Include="AssemblyInfo.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\parcel\Parcel\ExcelParser.fsproj">
+      <Name>ExcelParser</Name>
+      <Project>{6de2a2b9-c029-4bdb-8992-d16276471d9f}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
