@@ -19,7 +19,6 @@
         let _ws = ws
         let _r = range
         let _is_cell = width = 1 && height = 1
-        let _interned_unique_id = String.Intern(unique_id)
         let _width = width
         let _height = height
         let _path = path
@@ -38,14 +37,17 @@
             | Some(f) -> f
             | None -> failwith "Not a formula reference."
         member self.IsCell = _is_cell
-        member self.UniqueID = _interned_unique_id
+        member self.UniqueID = unique_id
         member self.Path = _path
         member self.WorkbookName = _workbook_name
         member self.WorksheetName = _worksheet_name
         member self.DoNotPerturb
             with get() = _do_not_perturb
             and set(value) = _do_not_perturb <- value
-        override self.GetHashCode() = _interned_unique_id.GetHashCode()
+        override self.GetHashCode() =
+            let x = range.Column
+            let y = range.Row
+            AST.Address.addressHash x y _worksheet_name
 
     module Address =
         let GetCOMObject(addr: AST.Address, app: Application) : XLRange =
