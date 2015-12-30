@@ -5,8 +5,7 @@
 
     type XLRange = Microsoft.Office.Interop.Excel.Range
 
-    type COMRef(unique_id: string,
-                wb: Workbook,
+    type COMRef(wb: Workbook,
                 ws: Worksheet,
                 range: XLRange,
                 path: string,           // path excluding final separator and filename; option type because in-memory workbooks have no path
@@ -37,7 +36,6 @@
             | Some(f) -> f
             | None -> failwith "Not a formula reference."
         member self.IsCell = _is_cell
-        member self.UniqueID = unique_id
         member self.Path = _path
         member self.WorkbookName = _workbook_name
         member self.WorksheetName = _worksheet_name
