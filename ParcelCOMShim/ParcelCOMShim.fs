@@ -62,9 +62,13 @@
             AST.Address.FromString(addr, wsname, wbname, path)
 
     module Range =
+        // build a contiguous range from topleft and bottomright coordinates
+        let private constructRange(app: Application)(tl: AST.Address)(br: AST.Address) : XLRange =
+            let wb: Workbook = app.Workbooks.Item(tl.A1Workbook())
+            let ws: Worksheet = app.Worksheets.Item(tl.A1Worksheet()) :?> Worksheet
+            ws.Range(tl.A1Local(), br.A1Local())
+
+        // build a discontiguous range from range components
         let GetCOMObject(rng: AST.Range, app: Application) : XLRange =
-            // tl and br must share workbook and worksheet (I think)
-            let wb: Workbook = app.Workbooks.Item(rng.TopLeft.A1Workbook())
-            let ws: Worksheet = wb.Worksheets.Item(rng.TopLeft.A1Worksheet()) :?> Worksheet
-            let range: XLRange = ws.Range(rng.TopLeft.A1Local(), rng.BottomRight.A1Local())
-            range
+            let rngs = rng.Ranges() |> List.map (fun (tl: AST.Address, br: AST.Address) -> constructRange app tl br)
+            List.reduce (fun acc r -> app.Union(acc, r)) rngs
