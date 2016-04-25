@@ -46,6 +46,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpreadsheetShim.fs" />
     <Compile Include="ParcelCOMShim.fs" />
     <Compile Include="AssemblyInfo.fs" />
   </ItemGroup>
