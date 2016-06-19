@@ -48,11 +48,10 @@
         abstract DeserializationRangeFixup: AST.Range -> Application -> COMRef
 
     [<Serializable>]
-    type NonLocalComRef(
-                path: string,           // path excluding final separator and filename; option type because in-memory workbooks have no path
-                workbook_name: string,
-                worksheet_name: string,
-                formula: string option) =
+    type NonLocalComRef(path: string,           // path excluding final separator and filename; option type because in-memory workbooks have no path
+                        workbook_name: string,
+                        worksheet_name: string,
+                        formula: string option) =
         inherit COMRef()
         let _path = path
         let _workbook_name = workbook_name
@@ -66,7 +65,8 @@
         override self.Worksheet = raise (NotImplementedException())
         override self.Range = raise (NotImplementedException())
         override self.IsFormula = match _formula with | Some(f) -> true | None -> false
-        override self.Formula = match _formula with
+        override self.Formula =
+            match _formula with
             | Some(f) -> f
             | None -> failwith "Not a formula reference."
         override self.IsCell = raise (NotImplementedException())
@@ -81,14 +81,14 @@
 
     [<Serializable>]
     type LocalCOMRef(wb: Workbook,
-                ws: Worksheet,
-                range: Range,
-                path: string,           // path excluding final separator and filename; option type because in-memory workbooks have no path
-                workbook_name: string,
-                worksheet_name: string,
-                formula: string option,
-                width: int,
-                height: int) =
+                     ws: Worksheet,
+                     range: Range,
+                     path: string,           // path excluding final separator and filename; option type because in-memory workbooks have no path
+                     workbook_name: string,
+                     worksheet_name: string,
+                     formula: string option,
+                     width: int,
+                     height: int) =
         inherit COMRef()
         [<NonSerialized>]
         let _wb = wb
@@ -111,7 +111,8 @@
         override self.Worksheet = _ws
         override self.Range = _r
         override self.IsFormula = match _formula with | Some(f) -> true | None -> false
-        override self.Formula = match _formula with
+        override self.Formula =
+            match _formula with
             | Some(f) -> f
             | None -> failwith "Not a formula reference."
         override self.IsCell = _is_cell
