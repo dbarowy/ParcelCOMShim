@@ -30,6 +30,21 @@
             let rngs = rng.Ranges() |> List.map (fun (tl: AST.Address, br: AST.Address) -> constructRange app tl br)
             List.reduce (fun acc r -> app.Union(acc, r)) rngs
 
+        let RangeFromCOMObject(com: Range, wb: Workbook) : AST.Range =
+            // get each individual cell
+            let mutable cells: AST.Address list = []
+            for cell in com.Cells do
+                match cell with
+                | :? Microsoft.Office.Interop.Excel.Range as c ->
+                    cells <- (Address.AddressFromCOMObject(c, wb)) :: cells
+                | _ -> failwith "Unknown object."
+            
+            // pair each cell with itself
+            let pairs = List.zip cells cells |> Array.ofList
+
+            // construct range object
+            new AST.Range(pairs)
+
     [<AbstractClass>]
     type COMRef() =
         abstract Width : int
