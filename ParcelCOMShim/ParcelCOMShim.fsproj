@@ -10,7 +10,7 @@
     <RootNamespace>ParcelCOMShim</RootNamespace>
     <AssemblyName>ParcelCOMShim</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.4.3.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Name>ParcelCOMShim</Name>
     <TargetFrameworkProfile />
@@ -52,7 +52,7 @@
     <Compile Include="AssemblyInfo.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\parcel\Parcel\ExcelParser.fsproj">
+    <ProjectReference Include="..\..\..\xl2fpcore\parcel\Parcel\ExcelParser.fsproj">
       <Name>ExcelParser</Name>
       <Project>{6de2a2b9-c029-4bdb-8992-d16276471d9f}</Project>
       <Private>True</Private>
